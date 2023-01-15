@@ -23,6 +23,8 @@ dependencies {
     implementation 'org.apache.directory.studio:org.apache.commons.codec:1.8'
     implementation 'com.google.zxing:core:3.5.1'
     implementation 'com.google.zxing:javase:3.5.1'
+    implementation 'cloud.commandframework:cloud-bungee:1.8.0'
+    implementation 'cloud.commandframework:cloud-annotations:1.8.0'
     compileOnly fileTree(dir: './libs', includes: ['*jar'])
 
 }
@@ -61,6 +63,8 @@ shadowJar {
         include(dependency('org.apache.directory.studio:org.apache.commons.codec:1.8'))
         include(dependency('com.google.zxing:core:3.5.1'))
         include(dependency('com.google.zxing:javase:3.5.1'))
+        include(dependency('cloud.commandframework:cloud-bungee:1.8.0'))
+        include(dependency('cloud.commandframework:cloud-annotations:1.8.0'))
     }
 }
 
