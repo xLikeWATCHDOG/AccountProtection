@@ -1,0 +1,4 @@
+name: AccountProtection
+version: '${version}'
+main: cn.watchdog.accountprotection.AccountProtection
+authors: [ xLikeWATCHDOG ]

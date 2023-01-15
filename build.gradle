@@ -1,0 +1,67 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'java'
+}
+
+group = 'cn.watchdog'
+version = '1w1a'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+
+dependencies {
+    compileOnly 'net.md-5:bungeecord-api:1.19-R0.1-SNAPSHOT'
+    implementation 'com.zaxxer:HikariCP:4.0.3'
+    implementation 'org.slf4j:slf4j-api:2.0.5'
+    implementation 'log4j:log4j:1.2.17'
+    implementation 'org.postgresql:postgresql:42.5.1'
+    implementation 'org.apache.directory.studio:org.apache.commons.codec:1.8'
+    implementation 'com.google.zxing:core:3.5.1'
+    implementation 'com.google.zxing:javase:3.5.1'
+    compileOnly fileTree(dir: './libs', includes: ['*jar'])
+
+}
+
+def targetJavaVersion = 8
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release = targetJavaVersion
+    }
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}
+
+shadowJar {
+    dependencies {
+        include(dependency('com.zaxxer:HikariCP:4.0.3'))
+        include(dependency('org.slf4j:slf4j-api:2.0.5'))
+        include(dependency('log4j:log4j:1.2.17'))
+        include(dependency('org.postgresql:postgresql:42.5.1'))
+        include(dependency('org.apache.directory.studio:org.apache.commons.codec:1.8'))
+        include(dependency('com.google.zxing:core:3.5.1'))
+        include(dependency('com.google.zxing:javase:3.5.1'))
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar

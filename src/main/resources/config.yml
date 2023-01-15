@@ -1,0 +1,68 @@
+# 下面的部分是定义远程数据库存储方法的设置。
+#
+# - 如果您使用的是本地存储方法，则不需要修改这里的任何设置!
+# - 连接细节选项在所有远程存储类型之间共享。
+data: # 定义数据库的地址和端口。
+  # - 默认使用标准DB引擎接口
+  #   (MySQL: 3306, PostgreSQL: 5432)
+  # - 如果不同，请指定为“host:port”
+  address: localhost
+
+  # 要存储SkyWars数据的数据库的名称。
+  # - 这必须已经创建。
+  database: AccountProtection
+
+  # 数据库的连接信息。
+  username: root
+  password: ''
+
+  # 这些设置适用于MySQL连接池。
+  # - 默认值适合大多数用户。
+  # - 除非您知道自己在做什么，否则不要更改这些设置!
+  pool-settings:
+
+    # 设置MySQL连接池的最大大小。
+    # - 基本上这个值将决定实际的最大数目
+    #   连接到数据库后端。
+    # - 更多关于确定连接池大小的信息可以在这里找到:
+    #   https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing
+    maximum-pool-size: 10
+
+    # 设置池将尝试维护的最小空闲连接数。
+    # - 对于峰值需求的最大性能和响应性，建议不要设置
+    #   此值并允许池作为固定大小的连接池。
+    #   (将这个值设置为与“maximum-pool-size”相同)
+    minimum-idle: 10
+
+    # 此设置以毫秒为单位控制池中连接的最大生存期。
+    # - 该值应该至少比任何数据库或基础设施要求的时间短30秒
+    #   连接时间限制。
+    maximum-lifetime: 1800000 # 30分钟
+
+    # 这个设置控制池“ping”连接以防止连接发生的频率
+    # 从数据库或网络基础设施超时开始，以毫秒为单位。
+    # - 小于maximum-lifetime，大于30000(30秒)。
+    # - 将该值设置为零将禁用keepalive功能。
+    keepalive-time: 0
+
+    # 这个设置控制插件在超时之前等待连接池的最大毫秒数。
+    connection-timeout: 5000 # 5秒
+
+    # 此设置允许您为连接定义额外的属性。
+    #
+    # 默认情况下，以下选项被设置为启用utf8编码。(如果你使用PostgreSQL，你可能需要删除这些)
+    #   useUnicode: true
+    #   characterEncoding: utf8
+    #
+    # 您也可以使用本节禁用SSL连接，通过取消注释' useSSL '和' verifyServerCertificate ' 下面的选项。
+    properties:
+      useUnicode: true
+      characterEncoding: utf8
+      #useSSL: false
+      #verifyServerCertificate: false
+
+  # 所有SocialSystem SQL表的前缀。
+  #
+  # - 这只适用于远程SQL存储类型(MySQL, PostgreSQL等)。
+  # - 如果您想为不同的服务器使用不同的表，请更改此选项。
+  table-prefix: 'account-protection_'
